@@ -134,6 +134,10 @@ class SetAlarm : AppCompatActivity() {
             alarmManager?.setExact(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
             intent.removeExtra("keyAnnoying")
 
+            val intent1 = Intent(this, MainActivity::class.java)
+            intent1.putExtra("SetAlarms", "Hours: $hours Minutes: $minutes")
+
+
         }
         // if button clicked alarms get cancelled or dismissed when playing
         // doesn't know how yet????????
@@ -191,4 +195,11 @@ class SetAlarm : AppCompatActivity() {
 ////        startActivity(intent)
 //
 //    }
+
+    override fun onBackPressed() {
+        Toast.makeText(applicationContext, "Back press disabled!", Toast.LENGTH_SHORT).show()
+        //val intent1 = Intent(this, MainActivity::class.java)
+
+        startActivity(Intent(this, MainActivity::class.java))
+    }
 }
