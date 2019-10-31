@@ -17,27 +17,38 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_set_alarm.*
 import java.util.*
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import java.lang.Boolean.TRUE
+
+var choiceRadioButtonAnnoying: String = "No choice for annoying"
+var choiceRadioButtonGames: String = "No choice for game"
+var BA: BluetoothAdapter? = null
+
 
 class SetAlarm : AppCompatActivity() {
 
-    private var BA: BluetoothAdapter? = null
     private var alarmTimePicker: TimePicker? = null
     private var pendingIntent: PendingIntent? = null
     private var alarmManager: AlarmManager? = null
-    private var lv: ListView? = null
-    private var choiceRadioButtonGames: String = ""
-    private var choiceRadioButtonAnnoying: String = ""
-
+    //private var lv: ListView? = null
+//    private var choiceRadioButtonGames: String = ""
+//    private var choiceRadioButtonAnnoying: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_alarm)
 
-        allowWritePermission()
+        //lv = findViewById(R.id.lvListview)
+
+        if (!canWrite) {
+            allowWritePermission()
+        }
         alarmTimePicker = findViewById(R.id.timePicker)
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager?
-//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val radioGroupGames = findViewById<RadioGroup>(R.id.radioGroupGames)
         val radioGroupAnnoying = findViewById<RadioGroup>(R.id.radioGroupAnnoying)
@@ -80,9 +91,10 @@ class SetAlarm : AppCompatActivity() {
 
         choiceRadioButtonAnnoying = ""
         intent.removeExtra("keyAnnoying")
+        intent.removeExtra("keyGame")
 
         if ((view as ToggleButton).isChecked) {
-            Toast.makeText(this@SetAlarm, "ALARM ON", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "ALARM ON", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this, AlarmReceiver::class.java)
             val calendar = Calendar.getInstance()
@@ -94,28 +106,17 @@ class SetAlarm : AppCompatActivity() {
             calendar.set(Calendar.HOUR_OF_DAY, hours)
             calendar.set(Calendar.MINUTE, minutes)
 
-            // check's for what option is checked and if needed opens an new activity
-            if (radioGroupGames?.checkedRadioButtonId == R.id.Puzzle) choiceRadioButtonGames = "Puzzle"
-            else if (radioGroupGames?.checkedRadioButtonId == R.id.MathProblem) {
-                choiceRadioButtonGames = "MathProblem"
-                val intent1 = Intent(this, MathProblemA::class.java)
-                startActivity(intent1)
-            }
-            else if (radioGroupGames?.checkedRadioButtonId == R.id.ReactionGame)
-            {
-                choiceRadioButtonGames = "ReactionGame"
-            }
-            else if (radioGroupGames?.checkedRadioButtonId == R.id.Password) {
-                choiceRadioButtonGames = "Password"
-                val intent1 = Intent(this, PasswordOption::class.java)
-                startActivity(intent1)
-            }
+            //radioGroupPasser(radioGroupGames)
+            //radioGroupGameChecker()
 
             BA = BluetoothAdapter.getDefaultAdapter()
-
-            // check's for what option is checked
-            if (radioGroupAnnoying?.checkedRadioButtonId == R.id.Music) choiceRadioButtonAnnoying = "Music"
-            else if (radioGroupAnnoying?.checkedRadioButtonId == R.id.MusicBluetooth) {
+            // check's for what annonying option is checked
+            if (radioGroupAnnoying?.checkedRadioButtonId == R.id.Music)
+            {
+                choiceRadioButtonAnnoying = "Music"
+            }
+            else if (radioGroupAnnoying?.checkedRadioButtonId == R.id.MusicBluetooth)
+            {
                 if (!BA?.isEnabled!!) {
                     val turnOn = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                     startActivityForResult(turnOn, 0)
@@ -125,31 +126,71 @@ class SetAlarm : AppCompatActivity() {
                 }
                 choiceRadioButtonAnnoying = "MusicBluetooth"
             }
-            else if (radioGroupAnnoying?.checkedRadioButtonId == R.id.vibration) choiceRadioButtonAnnoying = "vibration"
+            else if (radioGroupAnnoying?.checkedRadioButtonId == R.id.vibration)
+            {
+                choiceRadioButtonAnnoying = "vibration"
+            }
             else if (radioGroupAnnoying?.checkedRadioButtonId == R.id.Brightness)
             {
                 setBrightness(255)
                 choiceRadioButtonAnnoying = "Brightness"
             }
 
+            // check's for what game option is checked and if needed opens an new activity
+            if (radioGroupGames.checkedRadioButtonId == R.id.Puzzle)
+            {
+                choiceRadioButtonGames = "Puzzle"
+            }
+            else if (radioGroupGames.checkedRadioButtonId == R.id.MathProblem) {
+                choiceRadioButtonGames = "MathProblem"
+//                val intent1 = Intent(this, MathProblemA::class.java)
+//                startActivity(intent1)
+            }
+            else if (radioGroupGames.checkedRadioButtonId == R.id.ReactionGame)
+            {
+                choiceRadioButtonGames = "ReactionGame"
+//                val intent1 = Intent(this, GameStart::class.java)
+//                startActivity(intent1)
+            }
+            else if (radioGroupGames.checkedRadioButtonId == R.id.Password) {
+                choiceRadioButtonGames = "Password"
+//                val intent1 = Intent(this, PasswordOption::class.java)
+//                startActivity(intent1)
+            }
+
             // send string to activity (AlarmReceiver), with key word: keyAnnoying
+            intent.removeExtra("keyAnnoying")
             intent.putExtra("keyAnnoying", choiceRadioButtonAnnoying)
+            intent.putExtra("keyGame", choiceRadioButtonGames)
 
             // creates a pendingIntent, for what activity the alarm have to trigger (intent = AlarmReceiver)
             pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+
+//            val currentHour =
+//                calendar.get(Calendar.HOUR_OF_DAY) // return the hour in 24 hrs format (ranging from 0-23)
+//            val currentMinute =
+//                calendar.get(Calendar.MINUTE)
+//
+//            if(currentHour == hours && currentMinute == minutes)
+//            {
+//                val intent1 = Intent(this, MathProblemA::class.java)
+//                startActivity(intent1)
+//            }
+
             // check's if alarm has to go off, if YES then AlarmReceiver gets enabled
             alarmManager?.setExact(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
             intent.removeExtra("keyAnnoying")
+            intent.removeExtra("keyGame")
 
-            val intent1 = Intent(this, MainActivity::class.java)
-            intent1.putExtra("SetAlarms", "Hours: $hours Minutes: $minutes")
-
-
+            // update alarms on start screen
+            //val intent1 = Intent(this, MainActivity::class.java)
+            //intent1.putExtra("SetAlarms", "Hours: $hours Minutes: $minutes")
         }
         // if button clicked alarms get cancelled or dismissed when playing
         // doesn't know how yet????????
-        else {
-            alarmManager?.cancel(pendingIntent)
+        else
+        {
+            //alarmManager?.cancel(pendingIntent)
             Toast.makeText(this@SetAlarm, "ALARM OFF", Toast.LENGTH_SHORT).show()
             radioGroupAnnoying.clearCheck()
             radioGroupGames.clearCheck()
@@ -161,21 +202,26 @@ class SetAlarm : AppCompatActivity() {
             //AlarmReceiver().abortAlarm(TRUE)
             val intent = Intent(this, AlarmReceiver::class.java)
             intent.removeExtra("keyAnnoying")
-            val intentRm = Intent(applicationContext, MainActivity::class.java)
-            intentRm.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.removeExtra("keyGame")
+//            val intentRm = Intent(applicationContext, MainActivity::class.java)
+//            intentRm.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 
-            AlarmReceiver().abortAlarm(TRUE)
-            startActivity(intent)
+            //AlarmReceiver().abortAlarm(TRUE)
+            AudioPlayer().playSong(this, TRUE)
+//            val intent1 = Intent(this, SetAlarm::class.java)
+//            startActivity(intent1)
             //AudioPlayer().playSong(this, TRUE)
 
-//            val i = Intent(applicationContext, SetAlarm::class.java)        // Specify any activity here e.g. home or splash or login etc
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            i.putExtra("EXIT", true)
-//            startActivity(i)
+            val i = Intent(applicationContext, SetAlarm::class.java)        // Specify any activity here e.g. home or splash or login etc
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            i.putExtra("EXIT", true)
+            AudioPlayer().playSong(this, TRUE)
+            startActivity(i)
+            AudioPlayer().playSong(this, TRUE)
             finish()
-
+            AudioPlayer().playSong(this, TRUE)
         }
 
 //        fun dismissAlarm(view: View) {
@@ -209,6 +255,32 @@ class SetAlarm : AppCompatActivity() {
 
         startActivity(Intent(this, MainActivity::class.java))
     }
+
+    fun radioGroupGameChecker(checker: String)
+    {
+        //val radioGroupGames2 = radioGroupPasser()
+        // check's for what game option is checked and if needed opens an new activity
+        if (radioGroupGames.checkedRadioButtonId == R.id.Puzzle)
+        {
+            choiceRadioButtonGames = "Puzzle"
+        }
+        else if (radioGroupGames.checkedRadioButtonId == R.id.MathProblem) {
+            choiceRadioButtonGames = "MathProblem"
+                val intent1 = Intent(this, MathProblemA::class.java)
+                startActivity(intent1)
+        }
+        else if (radioGroupGames.checkedRadioButtonId == R.id.ReactionGame)
+        {
+            choiceRadioButtonGames = "ReactionGame"
+                val intent1 = Intent(this, GameStart::class.java)
+                startActivity(intent1)
+        }
+        else if (radioGroupGames.checkedRadioButtonId == R.id.Password) {
+            choiceRadioButtonGames = "Password"
+                val intent1 = Intent(this, PasswordOption::class.java)
+                startActivity(intent1)
+        }
+    }
 }
 
 fun Context.allowWritePermission(){
@@ -221,6 +293,15 @@ fun Context.allowWritePermission(){
     }
 }
 
+val Context.canWrite:Boolean
+    get() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.System.canWrite(this)
+        }else{
+            return true
+        }
+    }
+
 fun Context.setBrightness(value:Int):Unit{
     Settings.System.putInt(
         this.contentResolver,
@@ -228,3 +309,34 @@ fun Context.setBrightness(value:Int):Unit{
         value
     )
 }
+
+fun radioGroupPasser(radioGroupGames: RadioGroup): RadioGroup {
+    return radioGroupGames
+}
+
+//fun radioGroupGameChecker()
+//{
+//    //val radioGroupGames2 = radioGroupPasser()
+//    // check's for what game option is checked and if needed opens an new activity
+//    if (radioGroupGames.checkedRadioButtonId == R.id.Puzzle)
+//    {
+//        choiceRadioButtonGames = "Puzzle"
+//    }
+//    else if (radioGroupGames.checkedRadioButtonId == R.id.MathProblem) {
+//        choiceRadioButtonGames = "MathProblem"
+////                val intent1 = Intent(this, MathProblemA::class.java)
+////                startActivity(intent1)
+//    }
+//    else if (radioGroupGames.checkedRadioButtonId == R.id.ReactionGame)
+//    {
+//        choiceRadioButtonGames = "ReactionGame"
+////                val intent1 = Intent(this, GameStart::class.java)
+////                startActivity(intent1)
+//    }
+//    else if (radioGroupGames.checkedRadioButtonId == R.id.Password) {
+//        choiceRadioButtonGames = "Password"
+////                val intent1 = Intent(this, PasswordOption::class.java)
+////                startActivity(intent1)
+//    }
+//}
+

@@ -20,6 +20,8 @@
         <activity android:name=".MathProblemA" />
         <activity android:name=".AlarmReceiver" />
         <activity android:name=".SetAlarm" />
+        <activity android:name=".GameStart"
+            android:screenOrientation="landscape"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
