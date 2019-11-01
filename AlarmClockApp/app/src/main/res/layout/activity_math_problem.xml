@@ -11,16 +11,16 @@
         android:layout_width="134dp"
         android:layout_height="73dp"
         android:layout_marginStart="162dp"
-        android:layout_marginTop="175dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="161dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="31dp"
         android:onClick="solved"
         android:text="Solved??"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/answerBox" />
 
     <TextView
         android:id="@+id/textView4"
@@ -31,6 +31,7 @@
         android:layout_marginEnd="133dp"
         android:layout_marginBottom="41dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/btnSolved"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +47,7 @@
         android:layout_marginEnd="133dp"
         android:layout_marginBottom="41dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/btnSolved"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,11 +61,32 @@
         android:layout_marginStart="95dp"
         android:layout_marginTop="42dp"
         android:layout_marginEnd="103dp"
-        android:layout_marginBottom="65dp"
+        android:layout_marginBottom="14dp"
         android:ems="10"
         android:inputType="number"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/btnSolved"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="422dp"
+        android:layout_height="255dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/math" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="419dp"
+        android:layout_height="145dp"
+        app:srcCompat="@drawable/math1"
+        tools:layout_editor_absoluteX="-5dp"
+        tools:layout_editor_absoluteY="589dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
