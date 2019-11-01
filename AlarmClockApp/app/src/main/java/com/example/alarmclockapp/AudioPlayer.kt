@@ -21,11 +21,6 @@ class AudioPlayer {
         }
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun stopSong(context: SetAlarm) {
-//        mp?.stop()
-//    }
-
     // method for playing a ringtone, if nog\ music is chosen
     fun ringTonePlayer(context: Context)
     {

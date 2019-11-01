@@ -159,10 +159,10 @@ class SetAlarm : AppCompatActivity() {
 
             AudioPlayer().playSong(this, TRUE)
 
-            val i = Intent(
-                applicationContext,
-                SetAlarm::class.java
-            )        // Specify any activity here e.g. home or splash or login etc
+            val intentRm = Intent(applicationContext, MainActivity::class.java)
+            intentRm.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+            val i = Intent(applicationContext, SetAlarm::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

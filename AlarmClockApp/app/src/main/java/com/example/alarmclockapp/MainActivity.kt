@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
 
         lv = this.findViewById(R.id.lvUpcomingAlarms)
 
-        //list(nextAlarm)
-
         // create audiomanager and out volume to max
         val audioManager =
             applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
