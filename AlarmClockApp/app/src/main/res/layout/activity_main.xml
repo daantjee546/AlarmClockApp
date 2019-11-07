@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Upcoming alarms:"
-        android:textSize="48sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/lvUpcomingAlarms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,13 +53,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="148dp"
-        android:layout_height="118dp"
+        android:layout_width="212dp"
+        android:layout_height="147dp"
         android:layout_marginBottom="350dp"
         app:layout_constraintBottom_toTopOf="@+id/imageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+        app:srcCompat="@drawable/wekker" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

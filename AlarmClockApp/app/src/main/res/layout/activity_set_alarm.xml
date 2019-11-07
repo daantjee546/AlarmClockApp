@@ -12,6 +12,7 @@
         android:layout_height="383dp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="8dp"
+        android:headerBackground="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,10 +53,11 @@
 
     <RadioGroup
         android:id="@+id/radioGroupGames"
-        android:layout_width="137dp"
-        android:layout_height="143dp"
-        android:layout_marginStart="34dp"
+        android:layout_width="140dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="75dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/toggleButton"
         app:layout_constraintEnd_toStartOf="@+id/radioGroupAnnoying"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,10 +91,10 @@
 
     <RadioGroup
         android:id="@+id/radioGroupAnnoying"
-        android:layout_width="148dp"
-        android:layout_height="151dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="152dp"
+        android:layout_height="132dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="34dp"
         app:layout_constraintBottom_toTopOf="@+id/toggleButton"
         app:layout_constraintEnd_toEndOf="parent"

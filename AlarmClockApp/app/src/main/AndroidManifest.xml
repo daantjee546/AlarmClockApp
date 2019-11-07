@@ -16,13 +16,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PasswordOption"></activity>
-        <activity android:name=".MathProblemA" />
-        <activity android:name=".AlarmReceiver" />
-        <activity android:name=".SetAlarm" />
+        <activity android:name=".PasswordOption"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".MathProblemA"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AlarmReceiver"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SetAlarm"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity android:name=".GameStart"
             android:screenOrientation="landscape"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
